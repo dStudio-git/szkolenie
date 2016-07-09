@@ -11,6 +11,8 @@ library(extrafont)
 library(Rttf2pt1)
 library(extrafontdb)
 library(Cairo)
+library(ggthemes)
+library(DT)
 
 
 dashboardPage(skin = "black",
