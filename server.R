@@ -265,7 +265,7 @@ server <- function(input, output, session) {
     praktyczna.min.max.operator <- praktyczna.tabela.min.max.operator()
     intercept <- praktyczna.tabela.min.max()$max.measurement
     n <- length(unique(praktyczna.tabela()$Pomiar))
-    parts <- length(unique(praktyczna.tabela()$Czesc))
+    parts <- length(unique(praktyczna.tabela()$Czesc))  
     
     if (0 %in% input$rysuj.praktyczna) {
       
@@ -273,12 +273,13 @@ server <- function(input, output, session) {
       i <- i + geom_point(data=praktyczna, aes(x=Numer_wiersza, y=Wynik), size = 2.5, shape = 16)
       i <- i + geom_hline(aes(yintercept = input$DGT), size = 0.5, alpha = 1, linetype = "dashed")
       i <- i + geom_hline(aes(yintercept = input$GGT), size = 0.5, alpha = 1, linetype = "dashed")
-      i <- i + geom_text(data=praktyczna, aes(x=max(Numer_wiersza), y=input$DGT, label=paste("",input$DGT)), family = "Open Sans",size=4,  vjust = -0.5)
-      i <- i + geom_text(data=praktyczna, aes(x=max(Numer_wiersza), y=input$GGT, label=paste("",input$GGT)), family = "Open Sans",size=4,  vjust = -0.5)
+      i <- i + geom_text(data=praktyczna, aes(x=max(Numer_wiersza)-1, y=input$DGT, label=paste("a",input$DGT)),size=6,  vjust = -0.5)
+      i <- i + geom_text(data=praktyczna, aes(x=max(Numer_wiersza)-1, y=input$GGT, label=paste("a",input$GGT)),size=6,  vjust = -0.5)
       i <- i + scale_y_continuous( breaks = waiver(), minor_breaks = waiver(), expand = c(0.2, 0))
       i <- i + scale_x_continuous('Części', breaks = NULL, labels=NULL)
       #      i <- i + geom_text(data=praktyczna.min.max, aes(x=Numer_wiersza+((Numer_wiersza + n - 1)-Numer_wiersza)/2, y=max.measurement, label=Czesc), size=4, vjust= -0.5 )
       i <- i + theme_tufte(base_size = 13, base_family = "Open Sans")
+      i <- i + theme(axis.title=element_blank())
     }
     
     else if(1 %in% input$rysuj.praktyczna){
@@ -287,8 +288,8 @@ server <- function(input, output, session) {
       i <- i + geom_point(data=praktyczna, aes(x=Numer_wiersza, y=Wynik), size = 2.5, shape = 16)
       i <- i + geom_hline(aes(yintercept = input$DGT), size = 0.5, alpha = 1, linetype = "dashed")
       i <- i + geom_hline(aes(yintercept = input$GGT), size = 0.5, alpha = 1, linetype = "dashed")
-      i <- i + geom_text(data=praktyczna, aes(x=max(Numer_wiersza), y=input$DGT, label=paste("",input$DGT)), size=4,  vjust = -0.5)
-      i <- i + geom_text(data=praktyczna, aes(x=max(Numer_wiersza), y=input$GGT, label=paste("",input$GGT)), size=4,  vjust = -0.5)
+      i <- i + geom_text(data=praktyczna, aes(x=max(Numer_wiersza)-1, y=input$DGT, label=paste("",input$DGT)), size=4,  vjust = -0.5)
+      i <- i + geom_text(data=praktyczna, aes(x=max(Numer_wiersza)-1, y=input$GGT, label=paste("",input$GGT)), size=4,  vjust = -0.5)
       i <- i + scale_y_continuous(breaks = waiver(), minor_breaks = waiver(), expand = c(0.2, 0))
       i <- i + scale_x_continuous('Części', breaks = NULL, labels=NULL)
       i <- i + geom_text(data=praktyczna.min.max, aes(x=Numer_wiersza+((Numer_wiersza + n - 1)-Numer_wiersza)/2, y=max.measurement, label=Czesc), size=4, vjust= -0.5 )
@@ -302,8 +303,8 @@ server <- function(input, output, session) {
       i <- i + geom_point(data=praktyczna, aes(x=Numer_wiersza, y=Wynik), size = 2.5, shape = 16)
       i <- i + geom_hline(aes(yintercept = input$DGT), size = 0.5, alpha = 1, linetype = "dashed")
       i <- i + geom_hline(aes(yintercept = input$GGT), size = 0.5, alpha = 1, linetype = "dashed")
-      i <- i + geom_text(data=praktyczna, aes(x=max(Numer_wiersza)-0.5, y=input$DGT, label=paste("",input$DGT)), family = "Open Sans",size=4,  vjust = -0.5)
-      i <- i + geom_text(data=praktyczna, aes(x=max(Numer_wiersza)-0.5, y=input$GGT, label=paste("",input$GGT)), family = "Open Sans",size=4,  vjust = -0.5)
+      i <- i + geom_text(data=praktyczna, aes(x=max(Numer_wiersza)-1, y=input$DGT, label=paste("",input$DGT)), family = "Open Sans",size=4,  vjust = -0.5)
+      i <- i + geom_text(data=praktyczna, aes(x=max(Numer_wiersza)-1, y=input$GGT, label=paste("",input$GGT)), family = "Open Sans",size=4,  vjust = -0.5)
       i <- i + geom_text(data=praktyczna.min.max.operator, aes(x=Numer_wiersza+((Numer_wiersza + n*parts - 1)-Numer_wiersza)/2, y=max.measurement.operator, label=paste("Operator ",Operator)), size=4,  vjust = -0.5)
       i <- i + scale_y_continuous( breaks = waiver(), minor_breaks = waiver(), expand = c(0.2, 0))
       i <- i + scale_x_continuous('Części', breaks = NULL, labels=NULL)
@@ -320,13 +321,13 @@ server <- function(input, output, session) {
       i <- i + geom_point(data=praktyczna, aes(x=Numer_wiersza, y=Wynik), size = 2.5, shape = 16)
       i <- i + geom_hline(aes(yintercept = input$DGT), size = 0.5, alpha = 1, linetype = "dashed")
       i <- i + geom_hline(aes(yintercept = input$GGT), size = 0.5, alpha = 1, linetype = "dashed")
-      i <- i + geom_text(data=praktyczna, aes(x=max(Numer_wiersza)-0.5, y=input$DGT, label=paste("",input$DGT)), family = "Open Sans",size=4,  vjust = -0.5)
-      i <- i + geom_text(data=praktyczna, aes(x=max(Numer_wiersza)-0.5, y=input$GGT, label=paste("",input$GGT)), family = "Open Sans",size=4,  vjust = -0.5)
+      i <- i + geom_text(data=praktyczna.min.max.operator, aes(x=Numer_wiersza+((Numer_wiersza + n*parts - 1)-Numer_wiersza)/2, y=max.measurement.operator, label=paste("Operator ",Operator)), size=4,  vjust = -0.5)
+      i <- i + geom_text(data=praktyczna, aes(x=max(Numer_wiersza)-1, y=input$DGT, label=paste("",input$DGT)), family = "Open Sans",size=4,  vjust = -0.5)
+      i <- i + geom_text(data=praktyczna, aes(x=max(Numer_wiersza)-1, y=input$GGT, label=paste("",input$GGT)), family = "Open Sans",size=4,  vjust = -0.5)
       i <- i + scale_y_continuous( breaks = waiver(), minor_breaks = waiver(), expand = c(0.2, 0))
       i <- i + scale_x_continuous('Części', breaks = NULL, labels=NULL)
       i <- i + geom_text(data=praktyczna.min.max, aes(x=Numer_wiersza+((Numer_wiersza + n - 1)-Numer_wiersza)/2, y=max.measurement, label=Czesc), size=4, vjust= -0.5 )
       i <- i + theme_tufte(base_size = 13, base_family = "Open Sans")
-      i <- i + geom_text(data=praktyczna.min.max.operator, aes(x=Numer_wiersza+((Numer_wiersza + n*parts - 1)-Numer_wiersza)/2, y=max.measurement.operator, label=paste("Operator ",Operator)), size=4,  vjust = -0.5)
       
     }
     
@@ -412,19 +413,21 @@ server <- function(input, output, session) {
     return(r)  
   })
   
-  output$contents <- DT::renderDataTable({
+
+  output$tabela <- DT::renderDataTable({
     inFile <- input$file1
     if (is.null(inFile))
       return(NULL)
-    read.csv(inFile$datapath, header=TRUE, sep = ";", quote = "\"")
-  })
-  
-  
-  
-  output$tabela <- DT::renderDataTable({
-    praktyczna.tabela()
+    tabela <- praktyczna.tabela()
+    tabela <- tabela %>%
+      select(-Numer_wiersza)
     # head(range.operator(), n = 40)
-  })
+  },
+  style = 'default',
+  filter = 'none',
+  options = list(pageLength = 13),
+  extensions = 'Responsive',
+  rownames = FALSE)
   
   output$GageRNR_wariancja <- renderTable({
     if (is.null(tabela.wariancja()))
