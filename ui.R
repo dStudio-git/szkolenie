@@ -36,7 +36,9 @@ dashboardBody(
             br(), br(),
             fluidRow(
               column(width=5,
-                box(title = "Wyniki MSE", status = "primary", solidHeader = TRUE, collapsible = FALSE, collapsed = FALSE, width = 12,                                    column(width=6,
+                box(title = "Wyniki MSE", status = "primary", solidHeader = TRUE,
+                     collapsible = FALSE, collapsed = FALSE, width = 12,                                    
+                  column(width=6,
                     numericInput("operatorzy", label = h4("Operatorzy"), value = 2),
                     numericInput("czesci", label = h4("Czesci:"), value = 5)
                   ),
@@ -46,7 +48,6 @@ dashboardBody(
                     downloadButton('downloadData', 'Pobierz')
                   )
                 ),
-                
                 box(title = "Struktura MSE", status = "primary", solidHeader = TRUE, collapsible = FALSE, collapsed = FALSE, width = 12,
                   fileInput('file1', label = '', accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv'))
                 )
