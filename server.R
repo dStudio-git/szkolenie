@@ -740,12 +740,12 @@ server <- function(input, output, session) {
     dane <- DOE.Wynik.tabela()
     dane <- dane %>%
       select(-run.no.std.rp, -run.no.in.std.order)
-  })
+  },style = 'default', filter = 'none', options = list(pageLength = 13), extensions = 'Responsive', rownames = FALSE)
   
   output$tabela.efekty <- DT::renderDataTable({
     dane <- efekty()
     #dane <- LenthPSE()
-  })
+  },style = 'default', filter = 'none', options = list(pageLength = 13), extensions = 'Responsive', rownames = FALSE)
   
   
   efekty <- reactive({

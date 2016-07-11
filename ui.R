@@ -21,8 +21,8 @@ dashboardPage(skin = "black",
   dashboardSidebar(
     sidebarMenu(
       menuItem("MSE", tabName = "MSE", icon = icon("line-chart"), badgeLabel = "", badgeColor = "green"),
-      menuItem("COV", tabName = "COV", icon = icon("reorder"), badgeLabel = "TBD", badgeColor = "yellow"),
-      menuItem("DoE", tabName = "DoE", icon = icon("th"), badgeLabel = "pending", badgeColor = "yellow")
+      menuItem("COV", tabName = "COV", icon = icon("reorder"), badgeLabel = "", badgeColor = "yellow"),
+      menuItem("DoE", tabName = "DoE", icon = icon("th"), badgeLabel = "", badgeColor = "yellow")
     )
   ),
 dashboardBody(
@@ -32,52 +32,59 @@ dashboardBody(
     tabItem(tabName = "MSE",
       fluidRow(
         tabBox(side="left",width = 12, title = NULL, selected = "Dane MSE", 
-          tabPanel(title = "Dane MSE", 
+          tabPanel(title = "Dane MSE",
+            br(), br(),
             fluidRow(
-              column(width=8,
-                box(title = "Struktura MSE", status = "primary", solidHeader = TRUE,
-                   collapsible = TRUE, collapsed = FALSE, width = 12,
-                  column(width=4, numericInput("operatorzy", label = h5("Operatorzy"), value = 2), downloadButton('downloadData', 'Pobierz')),
-                  column(width=4, numericInput("czesci", label = h5("Czesci:"), value = 5)),
-                  column(width=4, numericInput("pomiary", label = h5("Pomiary"), value = 3))
-                ) 
-              ),
-              column(width=4, 
-                box(title = "Wyniki pomiarow", status = "primary", solidHeader = TRUE,
-                  collapsible = TRUE, collapsed = FALSE, width = 12,
+              column(width=5,
+                box(title = "Wyniki MSE", status = "primary", solidHeader = TRUE, collapsible = FALSE, collapsed = FALSE, width = 12,                                    column(width=6,
+                    numericInput("operatorzy", label = h4("Operatorzy"), value = 2),
+                    numericInput("czesci", label = h4("Czesci:"), value = 5)
+                  ),
+                  column(width=6,
+                    numericInput("pomiary", label = h4("Pomiary"), value = 3),
+                    h4("Pobierz wzór"),
+                    downloadButton('downloadData', 'Pobierz')
+                  )
+                ),
+                
+                box(title = "Struktura MSE", status = "primary", solidHeader = TRUE, collapsible = FALSE, collapsed = FALSE, width = 12,
                   fileInput('file1', label = '', accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv'))
                 )
+              ),
+              column(width=7,
+                box(title = "Tabela MSE", status = "primary", solidHeader = TRUE, collapsible = FALSE, collapsed = FALSE, width = 12,
+                  DT::dataTableOutput('tabela')
+                )
               )
-            ),  
-            fluidRow(
-              column(width=12,DT::dataTableOutput('tabela')
-              )
-            ) 
+            )
+
           ), # Koniec TabPanel MSE
           tabPanel(title = "Analiza Praktyczna", br(),
             fluidRow(
               column(width = 12,
-                plotOutput('practical', width = "100%"), br()
-              )
+                box(title = "Box Plot", status = "primary", solidHeader = TRUE, collapsible = FALSE, collapsed = FALSE, width = 12,
+                  plotOutput('practical', width = "100%"), br()
+                )
+              )  
             ),
             fluidRow(
               column(width=3,
                 box(title = "Wprowadz zakres", status = "primary", height=240, solidHeader = TRUE,
-                    collapsible = TRUE, collapsed = FALSE, width = 12,
+                    collapsible = FALSE, collapsed = FALSE, width = 12,
                   uiOutput('tolerancje.DGT'),
                   uiOutput('tolerancje.GGT')
                 )
               ), 
               column(width=3,
                 box(title = "Rysuj", status = "primary", height=240, solidHeader = TRUE,
-                    collapsible = TRUE, collapsed = FALSE, width = 12,
+                    collapsible = FALSE, collapsed = FALSE, width = 12,
                   radioButtons("rysuj.praktyczna", label = h5("Obrys:"), 
                       choices = list("tylko punkty"=0, "czesci" = 1, "+ operatorzy" = 2, "+ trendy" = 3),selected = NULL)
                 )
               ),
               column(width=6,
-                box(title = "Interpretacja analizy praktycznej", status = "success", solidHeader = TRUE,
-                    collapsible = TRUE, collapsed = FALSE, width = 12,
+                box(title = "Interpretacja analizy praktycznej", status = "primary", solidHeader = TRUE,
+                    collapsible = FALSE, collapsed = FALSE, width = 12,
                   h6("✔ Określ granice specyfikacji badanych częsci "),
                   h6("✔ Odpowiedz na pytania: (uruchom kolejne opcje pola 'Rysuj'"),
                   h6("   • czy uchwycono realną zmienność?"),
@@ -91,15 +98,17 @@ dashboardBody(
         tabPanel(title = "Analiza Graficzna", br(),
           fluidRow(
             column(width=12,
-              plotOutput('graficznaX',height="200px"),
-              plotOutput('graficznaR',height="200px")
+              box(title = "Wyniki MSE", status = "primary", solidHeader = TRUE, collapsible = FALSE, collapsed = FALSE, width = 12,
+                plotOutput('graficznaX',height="200px"),
+                plotOutput('graficznaR',height="200px")
+              )  
             )
           ),
           br(),
           fluidRow(
             column(width=6, offset = 6,
-              box(title = "Interpretacja analizy graficznej", status = "success", solidHeader = TRUE,
-                  collapsible = TRUE, collapsed = FALSE, width = 12,
+              box(title = "Interpretacja analizy graficznej", status = "primary", solidHeader = TRUE,
+                  collapsible = FALSE, collapsed = FALSE, width = 12,
                 h6("✔ Okdpowiedz na pytania"),
                 h6("   • (karta R) Czy zmnienność pomiar-do-pomiaru jest SPC?"),
                 h6("   • (karta X) Czy istnieje dowód na zmienność część-do-części?")
@@ -134,19 +143,20 @@ dashboardBody(
     ),
     tabItem(tabName = "DoE",
       fluidRow(
-        tabBox(side="left",width = 12, title = "(DoE) Planowane Eksperymenty", selected = "Dane DoE", 
+        tabBox(side="left",width = 12, title = NULL, selected = "Dane DoE", 
           tabPanel(title = "Dane DoE",
+            br(), br(),
             fluidRow(
-              column(width=3,
-                box(title = "Wyniki DoE", status = "primary", solidHeader = TRUE, collapsible = TRUE, collapsed = FALSE, width = 12,
+              column(width=5,
+                box(title = "Wyniki DoE", status = "primary", solidHeader = TRUE, collapsible = FALSE, collapsed = FALSE, width = 12,
                   fileInput('fileWynik', label = '',accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv'))
                 ),
-                box(title = "Struktura DoE", status = "primary", solidHeader = TRUE, collapsible = TRUE, collapsed = FALSE, width = 12,
+                box(title = "Struktura DoE", status = "primary", solidHeader = TRUE, collapsible = FALSE, collapsed = FALSE, width = 12,
                   downloadButton('downloadRDA', 'Pobierz')
                 )
               ),
-              column(width=9,
-                box(title = "Tabela DOE", status = "primary", solidHeader = TRUE, collapsible = TRUE, collapsed = FALSE, width = 12,
+              column(width=7,
+                box(title = "Tabela DOE", status = "primary", solidHeader = TRUE, collapsible = FALSE, collapsed = FALSE, width = 12,
                   DT::dataTableOutput('tabela.DoE')
                 )
               )
@@ -156,13 +166,13 @@ dashboardBody(
             fluidRow(
               column(width=6,
                 box(title = "Time Series Plot", status = "primary", solidHeader = TRUE,
-                    collapsible = TRUE, collapsed = FALSE, width = 12,
+                    collapsible = FALSE, collapsed = FALSE, width = 12,
                   plotOutput('rysuj.ANOG')
                 )
               ),   
               column(width=6,
                 box(title = "Scatter Plot", status = "primary", solidHeader = TRUE,
-                    collapsible = TRUE, collapsed = FALSE, width = 12,
+                    collapsible = FALSE, collapsed = FALSE, width = 12,
                   plotOutput('rysuj.SCATTER')
                 )
               ) 
@@ -172,13 +182,13 @@ dashboardBody(
             fluidRow(
               column(width=6,
               box(title = "Wykres efektow glownych", status = "primary", solidHeader = TRUE,
-                  collapsible = TRUE, collapsed = FALSE, width = 12,
+                  collapsible = FALSE, collapsed = FALSE, width = 12,
                 plotOutput('MEPlot')
                 )
               ),# koniec kolumny     
               column(width=6,
                 box(title = "Wykres interakcji", status = "primary", solidHeader = TRUE,
-                    collapsible = TRUE, collapsed = FALSE, width = 12,
+                    collapsible = FALSE, collapsed = FALSE, width = 12,
                   plotOutput('IEPlot')
                 )
               )     
@@ -191,20 +201,20 @@ dashboardBody(
             fluidRow(
               column(width=6,
                 box(title = "Normal / HalfNormal Plot", status = "primary", solidHeader = TRUE,
-                    collapsible = TRUE, collapsed = FALSE, width = 12,
+                    collapsible = FALSE, collapsed = FALSE, width = 12,
                   plotOutput('NormalPlot')
                 )
               ), # koniec kolumny
               column(width=6,
                 box(title = "Pareto Plot", status = "primary", solidHeader = TRUE,
-                    collapsible = TRUE, collapsed = FALSE, width = 12,
+                    collapsible = FALSE, collapsed = FALSE, width = 12,
                   plotOutput('ParetoPlot')
                 )
               )
             ), #koniec FluidRow
             fluidRow(
               column(width=4,
-                box(title = "PSE", status = "primary", solidHeader = TRUE, collapsible = TRUE, collapsed = FALSE, width = 12,
+                box(title = "PSE", status = "primary", solidHeader = TRUE, collapsible = FALSE, collapsed = FALSE, width = 12,
                   valueBoxOutput('PSE', width=NULL)
                 )
               )# koniec kolumny 
